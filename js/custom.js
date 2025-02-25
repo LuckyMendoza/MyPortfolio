@@ -1,3 +1,67 @@
+//courosel certificate
+
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('.certificate-carousel');
+    const images = document.querySelectorAll('.certificate-image');
+    const indicators = document.querySelectorAll('.indicator');
+    const prevButton = document.querySelector('.prev');
+    const nextButton = document.querySelector('.next');
+    let currentIndex = 0;
+    let autoSlideInterval;
+
+    function showImage(index) {
+        images.forEach((img, i) => {
+            img.classList.remove('active');
+            indicators[i].classList.remove('active');
+        });
+        images[index].classList.add('active');
+        indicators[index].classList.add('active');
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+    }
+
+    function autoSlide() {
+        autoSlideInterval = setInterval(nextImage, 5000); // Change every 5 seconds
+    }
+
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+
+    nextButton.addEventListener('click', function() {
+        stopAutoSlide();
+        nextImage();
+        autoSlide();
+    });
+
+    prevButton.addEventListener('click', function() {
+        stopAutoSlide();
+        prevImage();
+        autoSlide();
+    });
+
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', function() {
+            stopAutoSlide();
+            currentIndex = index;
+            showImage(currentIndex);
+            autoSlide();
+        });
+    });
+
+    autoSlide(); // Start auto-slide on page load
+});
+
+
+
 (function($) {
 
 	"use strict";
@@ -161,3 +225,4 @@
 
 
 })(jQuery);
+
