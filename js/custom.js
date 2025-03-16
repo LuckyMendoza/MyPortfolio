@@ -9,13 +9,25 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentIndex = 0;
     let autoSlideInterval;
 
+    // Check if elements exist before proceeding
+    if (!carousel || !images.length || !indicators.length || !prevButton || !nextButton) {
+        console.error('Certificate carousel elements not found');
+        return;
+    }
+
+    console.log('Certificate carousel initialized with', images.length, 'images');
+
     function showImage(index) {
         images.forEach((img, i) => {
             img.classList.remove('active');
-            indicators[i].classList.remove('active');
+            if (indicators[i]) {
+                indicators[i].classList.remove('active');
+            }
         });
         images[index].classList.add('active');
-        indicators[index].classList.add('active');
+        if (indicators[index]) {
+            indicators[index].classList.add('active');
+        }
     }
 
     function nextImage() {
@@ -29,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function autoSlide() {
+        clearInterval(autoSlideInterval); // Clear any existing interval
         autoSlideInterval = setInterval(nextImage, 5000); // Change every 5 seconds
     }
 
@@ -36,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearInterval(autoSlideInterval);
     }
 
+    // Event listeners
     nextButton.addEventListener('click', function() {
         stopAutoSlide();
         nextImage();
@@ -57,6 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Initialize
+    showImage(currentIndex); // Ensure first image is shown
     autoSlide(); // Start auto-slide on page load
 });
 

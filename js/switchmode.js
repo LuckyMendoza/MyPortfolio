@@ -1,35 +1,22 @@
-// Add this script in your HTML file or a separate JS file
+// Get the theme toggle checkbox
 const themeToggle = document.getElementById('theme-toggle');
+
+// Check for saved theme preference, otherwise use system preference
+const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 const currentTheme = localStorage.getItem('theme');
 
-// Check if the user already has a theme preference
 if (currentTheme) {
-  document.body.classList.add(currentTheme);
-  if (currentTheme === 'light-mode') {
-    document.body.classList.add('light-mode');
-  }
-}
-
-// Function to switch themes
-function switchTheme() {
-  if (document.body.classList.contains('light-mode')) {
-    document.body.classList.remove('light-mode');
-    localStorage.setItem('theme', 'dark-mode');
-  } else {
-    document.body.classList.add('light-mode');
-    localStorage.setItem('theme', 'light-mode');
-  }
-}
-
-// Event listener for the toggle button
-themeToggle.addEventListener('click', switchTheme);
-
-
-const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-if (prefersDarkMode) {
-  document.body.classList.remove('light-mode');
-  localStorage.setItem('theme', 'dark-mode');
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  themeToggle.checked = currentTheme === 'light';
 } else {
-  document.body.classList.add('light-mode');
-  localStorage.setItem('theme', 'light-mode');
+  const systemTheme = prefersDarkScheme.matches ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', systemTheme);
+  themeToggle.checked = systemTheme === 'light';
 }
+
+// Toggle theme on checkbox change
+themeToggle.addEventListener('change', () => {
+  const newTheme = themeToggle.checked ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+});
