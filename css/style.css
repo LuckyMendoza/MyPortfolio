@@ -2154,8 +2154,8 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 140px;
-  width: 140px; /* Make width equal to height for perfect circle */
+  height: 100px;
+  width: 100px; /* Make width equal to height for perfect circle */
   aspect-ratio: 1; /* Enforce 1:1 aspect ratio */
   background-color: black;
   border-radius: 100%;
